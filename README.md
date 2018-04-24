@@ -39,10 +39,10 @@ tensorboard --logdir=experiments/Year-Month-Day/MCF-3D CNN/logs
 ## Results
 <div align="center">
 
-The results of discriminating the HCC and cirrhosis
+** Tabel1 The results of discriminating the HCC and cirrhosis **
 <img align="center" width="600" src="https://github.com/xyj77/MCF-3D-CNN/raw/master/figures/result1.png">
 
-The results of non-invasive assessment of HCC differentiation
+** Tabel2 The results of non-invasive assessment of HCC differentiation **
 <img align="center" width="600" src="https://github.com/xyj77/MCF-3D-CNN/raw/master/figures/result2.png">
 <img align="center" width="600" src="https://github.com/xyj77/MCF-3D-CNN/raw/master/experiments/img/concat_1_2D3D_roc.png">
 <img align="center" width="600" src="https://github.com/xyj77/MCF-3D-CNN/raw/master/experiments/img/concat_1_2D3D_cfm.png">

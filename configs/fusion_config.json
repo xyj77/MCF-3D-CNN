@@ -1,0 +1,23 @@
+{
+  "exp_name": "MCF-3D CNN",
+  "data_path": "data_loader/ABKEFGHIJ_EFGHIJ_FGHIJ-E_FGHIJ5-E", 
+  "classes": 3,  
+  "repeat": 10, 
+  "num_epochs": 800,
+  "learning_rate": 0.001,
+  "optimizer": "adam",
+  "batch_size": 16,
+  "Num_train": 128,
+  "Num_test": 64,
+  "patience": 8, 
+  "min_lr": 0.00005, 
+  
+  
+  "verbose_training": true,
+  "checkpoint_monitor": "val_loss",
+  "checkpoint_mode": "min",
+  "checkpoint_save_best_only": true,
+  "checkpoint_save_weights_only": true,
+  "checkpoint_verbose": true,
+  "tensorboard_write_graph": true
+}

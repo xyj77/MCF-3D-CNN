@@ -14,7 +14,7 @@ Data belongs to Beijing Friendship Hospital.
 
 <div align="center">
 
-<img align="center" width="600" src="https://github.com/xyj77/MCF-3D-CNN/raw/master/figures/DCE-MRI.PNG">
+<img align="center" width="600" src="https://github.com/xyj77/MCF-3D-CNN/raw/master/figures/DCE-MRI.png">
 
 </div>
 
@@ -36,21 +36,26 @@ tensorboard --logdir=experiments/Year-Month-Day/MCF-3D CNN/logs
 
 </div>
 
+## Results
+<div align="center">
 
+The results of discriminating the HCC and cirrhosis
+<img align="center" width="600" src="https://github.com/xyj77/MCF-3D-CNN/raw/master/figures/result1.png">
 
+The results of non-invasive assessment of HCC differentiation
+<img align="center" width="600" src="https://github.com/xyj77/MCF-3D-CNN/raw/master/figures/result2.png">
+<img align="center" width="600" src="https://github.com/xyj77/MCF-3D-CNN/raw/master/experiments/img/concat_1_2D3D_roc.png">
+<img align="center" width="600" src="https://github.com/xyj77/MCF-3D-CNN/raw/master/experiments/img/concat_1_2D3D_cfm.png">
 
-## Citing
+</div>
 
-If you use this code in your research, please use the following BibTeX entry.
+## Feature maps of C1 and C2 convolution layer
+<div align="center">
 
-```
-@inproceedings{,
-  title={},
-  author={},
-  booktitle={},
-  year={}
-}
-```
+<img align="center" width="600" src="https://github.com/xyj77/MCF-3D-CNN/raw/master/figures/FeatureMaps.png">
+
+</div>
+
 
 ## Reference
 

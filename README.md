@@ -14,7 +14,7 @@ Data belongs to Beijing Friendship Hospital.
 
 <div align="center">
 
-<img align="center" width="600" src="https://github.com/xyj77/MCF-3D-CNN/figures/DCE-MRI.PNG?raw=true">
+<img align="center" width="600" src="figures/DCE-MRI.PNG">
 
 </div>
 
@@ -31,7 +31,7 @@ tensorboard --logdir=experiments/Year-Month-Day/MCF-3D CNN/logs
 
 <div align="center">
 
-<img align="center" width="600" src="https://github.com/xyj77/MCF-3D-CNN/figures/3DCNN.PNG?raw=true">
+<img align="center" width="600" src="/figures/3DCNN.png">
 
 </div>
 

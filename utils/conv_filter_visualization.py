@@ -145,12 +145,12 @@ def save_map_img(layer_name, ex_model, (map_w, map_h, map_s), map_n):
                              (map_h+margin)*j : (map_h+margin)*j+map_h, :] = feature_map[0,:,:,:,i]     
     # save the result to disk
     # imsave(layer_name+'feature.png', stitched_filters)
-    cv2.imwrite('img/'+layer_name+'feature.png', stitched_filters)
+    cv2.imwrite('../experiments/img/'+layer_name+'feature.png', stitched_filters)
 
 
 # build the VGG16 network with ImageNet weights
-model = model_from_json(open('results/Trans_models20180302/[\'E5\', \'F5\', \'G5\', \'H5\', \'I5\']_1_architecture.json').read())  
-model.load_weights('results/Trans_models20180302/[\'E5\', \'F5\', \'G5\', \'H5\', \'I5\']_1_weights.h5')
+model = model_from_json(open('../experiments/models/[\'E5\', \'F5\', \'G5\', \'H5\', \'I5\']_1_architecture.json').read())  
+model.load_weights('../experiments/models/[\'E5\', \'F5\', \'G5\', \'H5\', \'I5\']_1_weights.h5')
 print('Model loaded.')
 model.summary()
 # # get the symbolic outputs of each "key" layer (we gave them unique names).
@@ -159,7 +159,7 @@ model.summary()
    # print(layer)
 
 #读取数据
-path = 'data/ABKEFGHIJ_EFGHIJ_FGHIJ-E_FGHIJ5-E'
+path = '../data_loader/ABKEFGHIJ_EFGHIJ_FGHIJ-E_FGHIJ5-E'
 dict = {'A': 0, 'B': 1, 'K': 2, 'E': 3, 'F': 4, 'G': 5, 'H': 6, 'I': 7, 'J': 8, \
         'E5':range(9,14), 'F5':range(14,19), 'G5':range(19,24), 'H5':range(24,29), 'I5':range(29,34), 'J5':range(34,39), \
         'F-E':39, 'G-E':40, 'H-E':41, 'I-E':42, 'J-E':43, \

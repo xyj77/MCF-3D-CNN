@@ -10,7 +10,13 @@ TensorFlow
 Keras
 
 ## Data
+Data belongs to Beijing Friendship Hospital.
 
+<div align="center">
+
+<img align="center" width="600" src="https://github.com/xyj77/MCF-3D-CNN/figures/DCE-MRI.PNG?raw=true">
+
+</div>
 
 
 ## To run the demo project:
@@ -20,8 +26,16 @@ python main.py -c configs/fusion_config.json
 ```
 2. Start Tensorboard visualization using:
 ```shell
-tensorboard --logdir=experiments/2018-04-23/MCF-3D CNN/logs
+tensorboard --logdir=experiments/Year-Month-Day/MCF-3D CNN/logs
 ```
+
+<div align="center">
+
+<img align="center" width="600" src="https://github.com/xyj77/MCF-3D-CNN/figures/3DCNN.PNG?raw=true">
+
+</div>
+
+
 
 
 ## Citing
@@ -29,7 +43,7 @@ tensorboard --logdir=experiments/2018-04-23/MCF-3D CNN/logs
 If you use this code in your research, please use the following BibTeX entry.
 
 ```
-@inproceedings{sung2018learning,
+@inproceedings{,
   title={},
   author={},
   booktitle={},
@@ -39,7 +53,4 @@ If you use this code in your research, please use the following BibTeX entry.
 
 ## Reference
 
-[MAML](https://github.com/)
-
-[MAML-pytorch](https://github.com/)
-
+[Keras-Project-Template](https://github.com/Ahmkel/Keras-Project-Template)

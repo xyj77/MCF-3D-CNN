@@ -14,7 +14,7 @@ Data belongs to Beijing Friendship Hospital.
 
 <div align="center">
 
-<img align="center" width="600" src="figures/DCE-MRI.PNG">
+<img align="center" width="600" src="https://github.com/xyj77/MCF-3D-CNN/raw/master/figures/DCE-MRI.PNG">
 
 </div>
 
@@ -29,9 +29,10 @@ python main.py -c configs/fusion_config.json
 tensorboard --logdir=experiments/Year-Month-Day/MCF-3D CNN/logs
 ```
 
+## Tensor-based data representation
 <div align="center">
 
-<img align="center" width="600" src="/figures/3DCNN.png">
+<img align="center" width="600" src="https://github.com/xyj77/MCF-3D-CNN/raw/master/figures/TTD.png">
 
 </div>
 

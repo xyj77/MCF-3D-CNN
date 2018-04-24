@@ -4,7 +4,6 @@
 *.egg
 *.egg-info
 dist
-build
 
 # My configurations:
 id_rsa

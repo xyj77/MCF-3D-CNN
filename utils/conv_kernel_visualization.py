@@ -18,12 +18,12 @@ def save_kernel_img(layer_name, kernel, (k_w, k_h, k_s), (n_in, k_n)):
                 stitched_filters[(k_w+margin)*i + k*offset : (k_w+margin)*i + k_w+k*offset,
                                  (k_h+margin)*j : (k_h+margin)*j+k_h] = kernel[:,:,i,j,k]
     # save the result to disk
-    imsave('../experiments/img/'+layer_name+'kernels.png', stitched_filters)    
+    imsave('../models/MFC-3DCNN_models/'+layer_name+'kernels.png', stitched_filters)    
 
 
 #载入模型
-model = model_from_json(open('../experiments/models/[\'E5\', \'F5\', \'G5\', \'H5\', \'I5\']_1_architecture.json').read())  
-model.load_weights('../experiments/models/[\'E5\', \'F5\', \'G5\', \'H5\', \'I5\']_1_weights.h5')
+model = model_from_json(open('../models/MFC-3DCNN_models/architecture.json').read())  
+model.load_weights('../models/MFC-3DCNN_models/weights.h5')
 print('Model loaded.')
 model.summary()
 # get the symbolic outputs of each "key" layer (we gave them unique names).

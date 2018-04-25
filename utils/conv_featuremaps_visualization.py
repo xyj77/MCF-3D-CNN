@@ -145,12 +145,12 @@ def save_map_img(layer_name, ex_model, (map_w, map_h, map_s), map_n):
                              (map_h+margin)*j : (map_h+margin)*j+map_h, :] = feature_map[0,:,:,:,i]     
     # save the result to disk
     # imsave(layer_name+'feature.png', stitched_filters)
-    cv2.imwrite('../experiments/img/'+layer_name+'feature.png', stitched_filters)
+    cv2.imwrite('../models/MFC-3DCNN_models/'+layer_name+'feature.png', stitched_filters)
 
 
 # build the VGG16 network with ImageNet weights
-model = model_from_json(open('../experiments/models/[\'E5\', \'F5\', \'G5\', \'H5\', \'I5\']_1_architecture.json').read())  
-model.load_weights('../experiments/models/[\'E5\', \'F5\', \'G5\', \'H5\', \'I5\']_1_weights.h5')
+model = model_from_json(open('../models/MFC-3DCNN_models/architecture.json').read())  
+model.load_weights('../models/MFC-3DCNN_models/weights.h5')
 print('Model loaded.')
 model.summary()
 # # get the symbolic outputs of each "key" layer (we gave them unique names).

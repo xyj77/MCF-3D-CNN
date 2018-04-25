@@ -7,7 +7,7 @@ from utils.dirs import create_dirs
 from utils.utils import get_args
 
 S = [ # 融合方案
-# ['E5', 'F5', 'G5', 'H5', 'I5', 'A'],
+# ['E5', 'F5', 'G5', 'H5', 'I5', 'J5'],
 
 ['E5', 'F5', 'G5', 'H5', 'I5']
 

@@ -1,5 +1,5 @@
 {
-  "exp_name": "MCF-3D-CNN",
+  "exp_name": "3DCNN",
   "data_path": "data_loader/ABKEFGHIJ_EFGHIJ_FGHIJ-E_FGHIJ5-E", 
   "classes": 3,  
   "repeat": 10, 

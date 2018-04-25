@@ -14,7 +14,6 @@ Keras
 ```shell
 python main.py -c configs/fusion_config.json  # MCF-3D-CNN
 ```
-Or
 ```shell
 python main.py -c configs/3dcnn_config.json   # 3DCNN
 ```

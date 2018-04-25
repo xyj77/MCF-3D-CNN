@@ -9,16 +9,6 @@ TensorFlow
 
 Keras
 
-## Data
-Data belongs to Beijing Friendship Hospital.
-
-<div align="center">
-
-<img align="center" width="600" src="https://github.com/xyj77/MCF-3D-CNN/raw/master/figures/DCE-MRI.png">
-
-</div>
-
-
 ## To run the demo project:
 1. Start the training using:
 ```shell
@@ -61,6 +51,14 @@ tensorboard --logdir=experiments/Year-Month-Day/Ex-name/logs
 
 </div>
 
+## Data
+Data belongs to Beijing Friendship Hospital.
+
+<div align="center">
+
+<img align="center" width="600" src="https://github.com/xyj77/MCF-3D-CNN/raw/master/figures/DCE-MRI.png">
+
+</div>
 
 ## Reference
 

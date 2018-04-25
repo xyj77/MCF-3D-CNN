@@ -22,11 +22,16 @@ Data belongs to Beijing Friendship Hospital.
 ## To run the demo project:
 1. Start the training using:
 ```shell
-python main.py -c configs/fusion_config.json
+python main.py -c configs/fusion_config.json  # MCF-3D-CNN
 ```
+Or
+```shell
+python main.py -c configs/3dcnn_config.json   # 3DCNN
+```
+
 2. Start Tensorboard visualization using:
 ```shell
-tensorboard --logdir=experiments/Year-Month-Day/MCF-3D CNN/logs
+tensorboard --logdir=experiments/Year-Month-Day/Ex-name/logs
 ```
 
 ## Tensor-based data representation

@@ -12,9 +12,13 @@ from keras.utils.vis_utils import plot_model
 class LiverModel(BaseModel):
     def __init__(self, config, fusion_type, Fusion):
         super(LiverModel, self).__init__(config)
-        self.model = self.build_model(fusion_type, Fusion)
+        self.model_type = config.exp_name
+        if self.model_type == 'MCF-3D-CNN':
+            self.model = self.build_fusion_model(fusion_type, Fusion)
+        elif self.model_type == '3DCNN':
+            self.model = self.build_3dcnn_model(fusion_type, Fusion)
 
-    def build_model(self, fusion_type, Fusion):
+    def build_fusion_model(self, fusion_type, Fusion):
         model_list = []
         for modual in Fusion:
             if len(modual) == 1: 
@@ -38,9 +42,30 @@ class LiverModel(BaseModel):
         model.compile(optimizer=adam, loss='categorical_crossentropy', metrics=['accuracy']) 
         
         return model
+
+    def build_3dcnn_model(self, fusion_type, Fusion):
+        if len(Fusion[0]) == 1: 
+            input_shape = (32, 32, len(Fusion))
+            model = self.cnn_2D(input_shape) 
+        else:
+            input_shape = (32, 32, 5, len(Fusion))
+            model = self.cnn_3D(input_shape) 
+        model.add(Dropout(0.5))
+        model.add(Dense(32, activation='relu', name = 'fc2'))
+        model.add(Dense(self.config.classes, activation='softmax', name = 'fc3')) 
         
+        # 统计参数
+        model.summary()
+        plot_model(model,to_file='experiments/img/' + str(Fusion) + fusion_type + r'_model.png',show_shapes=True)
+        print '    Saving model  Architecture'
         
-    def cnn_2D(self, input_shape, modual):
+        adam = Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-8)
+        # model.compile(optimizer=adam, loss=self.mycrossentropy, metrics=['accuracy']) #有改善，但不稳定
+        model.compile(optimizer=adam, loss='categorical_crossentropy', metrics=['accuracy']) 
+        
+        return model        
+        
+    def cnn_2D(self, input_shape, modual=''):
         #建立Sequential模型    
         model = Sequential() 
         model.add(Conv2D(
@@ -66,7 +91,7 @@ class LiverModel(BaseModel):
       
         return model
 
-    def cnn_3D(self, input_shape, modual):
+    def cnn_3D(self, input_shape, modual=''):
         #建立Sequential模型    
         model = Sequential() 
         model.add(Convolution3D(

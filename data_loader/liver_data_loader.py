@@ -19,6 +19,7 @@ class LiverDataLoader(BaseDataLoader):
         self.path = config.data_path
         self.Num_train = config.Num_train
         self.Num_test = config.Num_test
+        self.model_type = config.exp_name
         (self.X_train, self.y_train), (self.X_test, self.y_test) = self.loadSampledData() 
 
     def get_train_data(self):
@@ -28,61 +29,94 @@ class LiverDataLoader(BaseDataLoader):
         return self.X_test, self.y_test
     
     def get_data(self, Fusion):
-        dict = self.dict
-        Train_list = []
-        Test_list = []
-        (trainData, trainLabels), (testData, testLabels) = (self.X_train, self.y_train), (self.X_test, self.y_test)
+        if self.model_type == 'MCF-3D-CNN':
+            dict = self.dict
+            Train_list = []
+            Test_list = []
+            (trainData, trainLabels), (testData, testLabels) = (self.X_train, self.y_train), (self.X_test, self.y_test)
+                
+            ############
+            # Label Smooth
+            # new_labels = (1.0 - label_smoothing) * one_hot_labels + label_smoothing / classes
+                    
+            # # 不转置            
+            # for modual in Fusion:
+                # if len(modual) == 1:  
+                    # input_shape = (trainData.shape[1], trainData.shape[2], 1)
+                    # Train_list.append(trainData[:,:,:,dict[modual]].reshape(trainData.shape[0], input_shape[0], input_shape[1], 1))
+                    # Test_list.append(testData[:,:,:,dict[modual]].reshape(testData.shape[0], input_shape[0], input_shape[1], 1)) 
+                # else:  
+                    # input_shape = (trainData.shape[1], trainData.shape[2], 5, 1) 
+                    # Train_list.append(trainData[:,:,:,dict[modual]].reshape(trainData.shape[0], input_shape[0], input_shape[1], 5, 1))
+                    # Test_list.append(testData[:,:,:,dict[modual]].reshape(testData.shape[0], input_shape[0], input_shape[1], 5, 1))
+                    
+                    
+            # 转置数据*********************************
+            for modual in Fusion:
+                if len(modual) == 1:  
+                    input_shape = (trainData.shape[1], trainData.shape[2], 1)
+                    Train_list.append(trainData[:,:,:,dict[modual]].reshape(trainData.shape[0], input_shape[0], input_shape[1]))
+                    Test_list.append(testData[:,:,:,dict[modual]].reshape(testData.shape[0], input_shape[0], input_shape[1])) 
+                else:  
+                    input_shape = (trainData.shape[1], trainData.shape[2], 5, 1)
+                    Train_list.append(trainData[:,:,:,dict[modual]].reshape(trainData.shape[0], input_shape[0], input_shape[1], 5))
+                    Test_list.append(testData[:,:,:,dict[modual]].reshape(testData.shape[0], input_shape[0], input_shape[1], 5))
+                    
+            if len(modual) == 1 or len(modual) == 3:         
+                Train_list = tf.cast(tf.stack(Train_list, axis=3), tf.float32)
+                Test_list = tf.cast(tf.stack(Test_list, axis=3), tf.float32)
+            else:
+                Train_list = tf.cast(tf.stack(Train_list, axis=4), tf.float32)
+                Test_list = tf.cast(tf.stack(Test_list, axis=4), tf.float32)
+                # # 转置
+                Train_list = tf.expand_dims(tf.transpose(Train_list, perm=[0,1,2,4,3]),5)
+                Test_list = tf.expand_dims(tf.transpose(Test_list, perm=[0,1,2,4,3]),5)
+                    
+                Train_list = tf.unstack(Train_list, axis=4)
+                Test_list = tf.unstack(Test_list, axis=4)
+                
+            with tf.Session() as sess:
+                for i, arr in enumerate(Train_list):
+                    Train_list[i] = arr.eval()
+                for i, arr in enumerate(Test_list):
+                    Test_list[i] = arr.eval()               
+                    
+            # print '*'*5, len(Train_list), Test_list[0].shape
+            # raw_input()
+            #*********************************************** 
+            return Train_list, trainLabels, Test_list, testLabels
             
-        ############
-        # Label Smooth
-        # new_labels = (1.0 - label_smoothing) * one_hot_labels + label_smoothing / classes
-                
-        # # 不转置            
-        # for modual in Fusion:
-            # if len(modual) == 1:  
-                # input_shape = (trainData.shape[1], trainData.shape[2], 1)
-                # Train_list.append(trainData[:,:,:,dict[modual]].reshape(trainData.shape[0], input_shape[0], input_shape[1], 1))
-                # Test_list.append(testData[:,:,:,dict[modual]].reshape(testData.shape[0], input_shape[0], input_shape[1], 1)) 
-            # else:  
-                # input_shape = (trainData.shape[1], trainData.shape[2], 5, 1) 
-                # Train_list.append(trainData[:,:,:,dict[modual]].reshape(trainData.shape[0], input_shape[0], input_shape[1], 5, 1))
-                # Test_list.append(testData[:,:,:,dict[modual]].reshape(testData.shape[0], input_shape[0], input_shape[1], 5, 1))
-                
-                
-        # 转置数据*********************************
-        for modual in Fusion:
-            if len(modual) == 1:  
-                input_shape = (trainData.shape[1], trainData.shape[2], 1)
-                Train_list.append(trainData[:,:,:,dict[modual]].reshape(trainData.shape[0], input_shape[0], input_shape[1]))
-                Test_list.append(testData[:,:,:,dict[modual]].reshape(testData.shape[0], input_shape[0], input_shape[1])) 
-            else:  
-                input_shape = (trainData.shape[1], trainData.shape[2], 5, 1)
-                Train_list.append(trainData[:,:,:,dict[modual]].reshape(trainData.shape[0], input_shape[0], input_shape[1], 5))
-                Test_list.append(testData[:,:,:,dict[modual]].reshape(testData.shape[0], input_shape[0], input_shape[1], 5))
-                
-        if len(modual) == 1 or len(modual) == 3:         
-            Train_list = tf.cast(tf.stack(Train_list, axis=3), tf.float32)
-            Test_list = tf.cast(tf.stack(Test_list, axis=3), tf.float32)
-        else:
-            Train_list = tf.cast(tf.stack(Train_list, axis=4), tf.float32)
-            Test_list = tf.cast(tf.stack(Test_list, axis=4), tf.float32)
-            # # 转置
-            Train_list = tf.expand_dims(tf.transpose(Train_list, perm=[0,1,2,4,3]),5)
-            Test_list = tf.expand_dims(tf.transpose(Test_list, perm=[0,1,2,4,3]),5)
-                
-            Train_list = tf.unstack(Train_list, axis=4)
-            Test_list = tf.unstack(Test_list, axis=4)
+        elif self.model_type == '3DCNN':
+            dict = self.dict
+            Train_list = []
+            Test_list = [] 
+            (trainData, trainLabels), (testData, testLabels) = (self.X_train, self.y_train), (self.X_test, self.y_test)           
+            for modual in Fusion:    
+                if len(modual) == 1 or len(modual) == 3:  
+                    input_shape = (trainData.shape[1], trainData.shape[2])
+                    Train_list.append(trainData[:,:,:,dict[modual]].reshape(trainData.shape[0], input_shape[0], input_shape[1]))
+                    Test_list.append(testData[:,:,:,dict[modual]].reshape(testData.shape[0], input_shape[0], input_shape[1])) 
+                else:  
+                    input_shape = (trainData.shape[1], trainData.shape[2], 5)
+                    Train_list.append(trainData[:,:,:,dict[modual]].reshape(trainData.shape[0], input_shape[0], input_shape[1], 5))
+                    Test_list.append(testData[:,:,:,dict[modual]].reshape(testData.shape[0], input_shape[0], input_shape[1], 5))
+                    
+            if len(Fusion[0]) == 1 or len(Fusion[0]) == 3:         
+                X_train = tf.cast(tf.stack(Train_list, axis=3), tf.float32)
+                X_test = tf.cast(tf.stack(Test_list, axis=3), tf.float32)
+            else:
+                X_train = tf.cast(tf.stack(Train_list, axis=4), tf.float32)
+                X_test = tf.cast(tf.stack(Test_list, axis=4), tf.float32)
+                # # 转置
+                X_train = tf.transpose(X_train, perm=[0,1,2,4,3])
+                X_test = tf.transpose(X_test, perm=[0,1,2,4,3])
+          
+            with tf.Session() as sess:
+                X_train, X_test = X_train.eval(), X_test.eval()    
             
-        with tf.Session() as sess:
-            for i, arr in enumerate(Train_list):
-                Train_list[i] = arr.eval()
-            for i, arr in enumerate(Test_list):
-                Test_list[i] = arr.eval()               
-                
-        # print '*'*5, len(Train_list), Test_list[0].shape
-        # raw_input()
-        #*********************************************** 
-        return Train_list, trainLabels, Test_list, testLabels
+            print X_train.shape, trainLabels.shape
+            # raw_input()     
+            return X_train, trainLabels, X_test, testLabels
   
     def loadSampledData(self):
         path = str(self.path)

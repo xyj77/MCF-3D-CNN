@@ -16,6 +16,7 @@ S = [ # 融合方案
 def main():
     # 获取配置文件路径
     # 运行：python main.py -c configs/fusion_config.json
+    #   Or: python main.py -c configs/3dcnn_config.json
     # 可视化: tensorboard --logdir=experiments/2018-04-23/MCF-3D CNN/logs
     try:
         args = get_args()

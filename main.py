@@ -67,20 +67,21 @@ def main():
                 trainer.train(fusion_type, Fusion, i, max_score)
                 
                 score, sens, prec, f1 = trainer.getResults('avg')
-                # if max_score-score < 0.03:
-                if True:
-                    Acc.append(score) 
-                    Sens.append(sens)   
-                    Prec.append(prec)
-                    F1.append(f1)
                 
-                    mul_acc, mul_sens, mul_spec, mul_auc = trainer.getResults('mul')
-                    #OneVsAll
-                    Mul_acc.append(mul_acc)
-                    Mul_sens.append(mul_sens)
-                    Mul_spec.append(mul_spec)
-                    Mul_auc.append(mul_auc)
+                # Record the results
+                Acc.append(score) 
+                Sens.append(sens)   
+                Prec.append(prec)
+                F1.append(f1)
                 
+                mul_acc, mul_sens, mul_spec, mul_auc = trainer.getResults('mul')
+                #OneVsAll
+                Mul_acc.append(mul_acc)
+                Mul_sens.append(mul_sens)
+                Mul_spec.append(mul_spec)
+                Mul_auc.append(mul_auc)
+                
+                # Record best result                
                 if score > max_score:
                     No = i
                     max_score = score

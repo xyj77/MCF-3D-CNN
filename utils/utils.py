@@ -114,7 +114,7 @@ def plot_roc_curve(y_true, y_pred, classes, save_tag):
         fpr[-1], tpr[-1] = 1, 1
         Auc = auc(fpr, tpr)
         plt.plot(fpr, tpr, lw=1, label='ROC (area = %0.2f)' % (Auc))
-                # # 记录ROC曲线以及曲线下面积   
+                # # 记录ROC曲线以及曲线下面积              
         f = open('experiments/img/'+ save_tag + '_roc_record01.txt', 'ab+')
         f.write(save_tag + '   AUC:' +  str(Auc) + '\n')
         f.write('FPR:' + str(list(fpr)) + '\n')
@@ -173,7 +173,7 @@ def plot_roc_curve(y_true, y_pred, classes, save_tag):
                      label='ROC of class {0} (area = {1:0.2f})'
                      ''.format(i, roc_auc[i]))
             
-            # # 记录ROC曲线以及曲线下面积   
+            # # 记录ROC曲线以及曲线下面积          
             f = open('experiments/img/' + save_tag + '_roc_record.txt', 'ab+')
             f.write(save_tag + '  AUC of class {0}:{1:f}\n'.format(i, roc_auc[i]))
             f.write('FPR:' + str(list(fpr[i])) + '\n')
@@ -240,7 +240,7 @@ def save_cnf_roc(y_true, y_pred, classes, isPlot, save_tag = ''):
     f.write(str(cnf_mat) + '\n')
     f.close()
 
-    # # 绘制ROC曲线
+    # # 记录ROC曲线
     plot_roc_curve(y_true, y_pred, range(classes), 'all/'+save_tag)  
 
 ###########################

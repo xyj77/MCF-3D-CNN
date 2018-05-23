@@ -9,6 +9,8 @@ from keras.layers.core import Dense, Dropout, Activation, Flatten
 from keras.optimizers import SGD, Adam
 from keras.utils.vis_utils import plot_model
 
+import keras.backend as K 
+
 class LiverModel(BaseModel):
     def __init__(self, config, fusion_type, Fusion):
         super(LiverModel, self).__init__(config)
@@ -133,7 +135,7 @@ class LiverModel(BaseModel):
     
     # 定义损失函数        
     def mycrossentropy(self, y_true, y_pred):
-        e = 0
+        e = 0.3
         # for i in range(y_true.shape[0]):
             # for j in range(3):
                 # sum += 0.1*(-1**y_true(i,j))*exp(abs(np.argmax(y_true[i,:])-j))*log(y_pred(i,j))
@@ -143,5 +145,5 @@ class LiverModel(BaseModel):
         # y_ = np.argmax(y_pred, axis=1)
         # print '*****************',y_pred
                 
-        # return (1-e)*K.categorical_crossentropy(y_pred,y_true) - e*K.categorical_crossentropy(y_pred, (1-y_true)/(classes-1)) 
+        # return (1-e)*K.categorical_crossentropy(y_pred,y_true) - e*K.categorical_crossentropy(y_pred, (1-y_true)/(self.config.classes-1)) 
         return (1-e)*K.categorical_crossentropy(y_pred,y_true) + e*K.categorical_crossentropy(y_pred, K.ones_like(y_pred)/2) 

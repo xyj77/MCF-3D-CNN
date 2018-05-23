@@ -3,7 +3,7 @@
   "data_path": "data_loader/ABKEFGHIJ_EFGHIJ_FGHIJ-E_FGHIJ5-E", 
   "classes": 3,  
   "repeat": 10, 
-  "num_epochs": 800,
+  "num_epochs": 300,
   "learning_rate": 0.001,
   "optimizer": "adam",
   "batch_size": 16,

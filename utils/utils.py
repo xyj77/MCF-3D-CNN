@@ -36,7 +36,7 @@ def get_args():
     args = argparser.parse_args()
     return args
 
-def accuracy_curve(h, dataset, isSample, save_tag):
+def train_curve(h, dataset, isSample, save_tag):
     acc, loss, val_acc, val_loss = h.history['acc'], h.history['loss'], h.history['val_acc'], h.history['val_loss']
     epoch = len(acc)
     
@@ -115,7 +115,7 @@ def plot_roc_curve(y_true, y_pred, classes, save_tag):
         Auc = auc(fpr, tpr)
         plt.plot(fpr, tpr, lw=1, label='ROC (area = %0.2f)' % (Auc))
                 # # 记录ROC曲线以及曲线下面积   
-        f = open('experiments/img/roc_record01.txt', 'ab+')
+        f = open('experiments/img/'+ save_tag + '_roc_record01.txt', 'ab+')
         f.write(save_tag + '   AUC:' +  str(Auc) + '\n')
         f.write('FPR:' + str(list(fpr)) + '\n')
         f.write('TPR:' + str(list(tpr)) + '\n\n')
@@ -174,7 +174,7 @@ def plot_roc_curve(y_true, y_pred, classes, save_tag):
                      ''.format(i, roc_auc[i]))
             
             # # 记录ROC曲线以及曲线下面积   
-            f = open('experiments/img/roc_record.txt', 'ab+')
+            f = open('experiments/img/' + save_tag + '_roc_record.txt', 'ab+')
             f.write(save_tag + '  AUC of class {0}:{1:f}\n'.format(i, roc_auc[i]))
             f.write('FPR:' + str(list(fpr[i])) + '\n')
             f.write('TPR:' + str(list(tpr[i])) + '\n\n')
@@ -190,7 +190,7 @@ def plot_roc_curve(y_true, y_pred, classes, save_tag):
     plt.savefig('experiments/img/'+ save_tag + '_roc.png')
     plt.close('all') # 关闭图    
     
-def accuracy(y_true, y_pred, classes, isPlot, save_tag = ''):
+def cnf_roc(y_true, y_pred, classes, isPlot, save_tag = ''):
     # 计算混淆矩阵
     y = np.zeros(len(y_true))
     y_ = np.zeros(len(y_true))    
@@ -222,7 +222,98 @@ def accuracy(y_true, y_pred, classes, isPlot, save_tag = ''):
         Auc = roc_auc_score(y_true[:,1], y_pred[:,1])
         return Acc, Sens, Spec, Auc 
 
+def save_cnf_roc(y_true, y_pred, classes, isPlot, save_tag = ''):
+    # 计算混淆矩阵
+    y = np.zeros(len(y_true))
+    y_ = np.zeros(len(y_true))    
+    for i in range(len(y_true)): 
+        y[i] = np.argmax(y_true[i,:])
+        y_[i] = np.argmax(y_pred[i,:])
+    cnf_mat = confusion_matrix(y, y_)
+    print cnf_mat
+    
+    # # 记录混淆矩阵
+    f = open('experiments/img/confuse_matrixes.txt', 'ab+')
+    if save_tag[-1] == '0':
+        f.write(save_tag+'\n')
+    f.write('No.' + save_tag[-1] + '\n')
+    f.write(str(cnf_mat) + '\n')
+    f.close()
 
+    # # 绘制ROC曲线
+    plot_roc_curve(y_true, y_pred, range(classes), 'all/'+save_tag)  
+
+###########################
+# 计算TP、TN、FP、FN
+def cnf2TpTnFpFn(c, mat):
+
+    #将正类预测为正类
+    TP = mat[c][c]
+    #将负类预测为负类
+    TN = sum([mat[x][y]  for x in range(len(mat)) if  x != c for y in range(len(mat[0])) if y != c])
+    #将负类预测为正类
+    FP = sum([mat[x][y]  for x in range(len(mat)) if  x != c for y in range(len(mat[0])) if y == c])
+    #将正类预测为负类
+    FN = sum([mat[x][y]  for x in range(len(mat)) if  x == c for y in range(len(mat[0])) if y != c])
+    return TP, TN, FP, FN        
+    
+def oneVsAll(y_true, y_pred, classes, save_tag = ''):
+    # 计算混淆矩阵
+    y = np.zeros(len(y_true))
+    y_ = np.zeros(len(y_true))    
+    for i in range(len(y_true)): 
+        y[i] = np.argmax(y_true[i,:])
+        y_[i] = np.argmax(y_pred[i,:])
+    cnf_mat = confusion_matrix(y, y_)
+    print cnf_mat
+    
+    if classes > 2: 
+        # 计算多分类一对多Acc、Sens、Spec、AUC
+        acc = []
+        sens = []
+        spec = []
+        _auc = []
+        
+        f = open('experiments/img/oneVsAll.txt', 'ab+')
+        if save_tag[-1] == '0':
+            f.write(save_tag+'\n')
+        f.write('No.' + save_tag[-1] + '\n')
+        f.close()
+        for i in range(classes):
+            fpr, tpr, _ = roc_curve(y_true[:, i], y_pred[:, i])
+            fpr[0], tpr[0] = 0, 0
+            fpr[-1], tpr[-1] = 1, 1
+            _auc.append(auc(fpr, tpr))
+            
+            tp, tn, fp, fn = cnf2TpTnFpFn(i, cnf_mat)
+            acc.append(1.0 * (tp + tn) / (tp + tn + fp + fn))
+            sens.append(1.0 * (tp) / (tp + fn))
+            spec.append(1.0 * (tn) / (tn + fp))
+            
+        # # 记录oneVsall结果          
+        f = open('experiments/img/oneVsAll.txt', 'ab+')
+        f.write('    Acc:' + str(acc) + '\n')
+        f.write('    Sens:' + str(sens) + '\n')
+        f.write('    Spec:' + str(spec) + '\n')
+        f.write('    AUC:' + str(_auc) + '\n')
+        f.close()
+        return acc, sens, spec, _auc
+        
+        
+import time
+# 计时装饰器
+def timer(func): 
+    def inner_wrapper():
+        start_time = time.time()
+        func()
+        stop_time = time.time()   
+        print('Used time {}'.format(stop_time-start_time))  
+    return inner_wrapper
+
+@timer
+def test1():
+    time.sleep(1)
+    print('Test the timer!')
 
         
 # def create_record(path, num_classes):

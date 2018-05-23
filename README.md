@@ -23,6 +23,15 @@ python main.py -c configs/3dcnn_config.json   # 3DCNN
 tensorboard --logdir=experiments/Year-Month-Day/Ex-name/logs
 ```
 
+## Data
+Data belongs to Beijing Friendship Hospital.
+
+<div align="center">
+
+<img align="center" width="600" src="https://github.com/xyj77/MCF-3D-CNN/raw/master/figures/DCE-MRI.png">
+
+</div>
+
 ## Tensor-based data representation
 <div align="center">
 
@@ -38,8 +47,7 @@ tensorboard --logdir=experiments/Year-Month-Day/Ex-name/logs
 
 **Tabel2 The results of non-invasive assessment of HCC differentiation**
 <img align="center" width="600" src="https://github.com/xyj77/MCF-3D-CNN/raw/master/figures/result2.png">
-<img align="center" width="600" src="https://github.com/xyj77/MCF-3D-CNN/raw/master/experiments/img/concat_1_2D3D_roc.png">
-<img align="center" width="600" src="https://github.com/xyj77/MCF-3D-CNN/raw/master/experiments/img/concat_1_2D3D_cfm.png">
+<img align="center" width="600" src="https://github.com/xyj77/MCF-3D-CNN/raw/master/figures/concat_roc.png">
 
 </div>
 
@@ -47,15 +55,6 @@ tensorboard --logdir=experiments/Year-Month-Day/Ex-name/logs
 <div align="center">
 
 <img align="center" width="600" src="https://github.com/xyj77/MCF-3D-CNN/raw/master/figures/FeatureMaps.png">
-
-</div>
-
-## Data
-Data belongs to Beijing Friendship Hospital.
-
-<div align="center">
-
-<img align="center" width="600" src="https://github.com/xyj77/MCF-3D-CNN/raw/master/figures/DCE-MRI.png">
 
 </div>
 

@@ -91,7 +91,9 @@ class LiverModelTrainer(BaseTrain):
         self.F1 = f1  
 
         if score[1] > max_score:
-            #保存best_model          
+            #保存best_model  
+            if not os.path.exists('experiments/models'):
+                os.mkdir('experiments/models')           
             json_string = model.to_json() 
             open('experiments/models/' + save_tag + '_architecture.json','w').write(json_string)  
             model.save_weights('experiments/models/' + save_tag + '_weights.h5')

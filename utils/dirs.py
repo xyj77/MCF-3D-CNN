@@ -7,6 +7,7 @@ def create_dirs(dirs):
     :param dirs:
     :return exit_code: 0:success -1:failed
     """
+        
     try:
         for dir_ in dirs:
             if not os.path.exists(dir_):

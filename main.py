@@ -6,6 +6,7 @@ from utils.config import process_config
 from utils.dirs import create_dirs
 from utils.utils import get_args, timer
 import numpy as np
+import os
 
 S = [ # 融合方案
 # ['E5', 'F5', 'G5', 'H5', 'I5', 'J5'],
@@ -40,7 +41,8 @@ def main():
         print("missing or invalid arguments")
         exit(0)
 
-    create_dirs([config.tensorboard_log_dir, config.checkpoint_dir])
+    create_dirs([config.tensorboard_log_dir, config.checkpoint_dir, 'experiments', 'experiments/img',\
+                 'experiments/img/all', 'experiments/models'])
     
     for fusion_type in ['concat']:
         for Fusion in S:
@@ -67,20 +69,20 @@ def main():
                 trainer.train(fusion_type, Fusion, i, max_score)
                 
                 score, sens, prec, f1 = trainer.getResults('avg')
-                
+                              
                 # Record the results
                 Acc.append(score) 
                 Sens.append(sens)   
                 Prec.append(prec)
                 F1.append(f1)
-                
+                    
                 mul_acc, mul_sens, mul_spec, mul_auc = trainer.getResults('mul')
                 #OneVsAll
                 Mul_acc.append(mul_acc)
                 Mul_sens.append(mul_sens)
                 Mul_spec.append(mul_spec)
                 Mul_auc.append(mul_auc)
-                
+                    
                 # Record best result                
                 if score > max_score:
                     No = i

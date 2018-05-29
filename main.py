@@ -4,6 +4,7 @@ from models.liver_model import LiverModel
 from trainers.liver_trainer import LiverModelTrainer
 from utils.config import process_config
 from utils.dirs import create_dirs
+from utils.avg_roc import plot_avg_roc
 from utils.utils import get_args, timer
 import numpy as np
 import os
@@ -69,13 +70,13 @@ def main():
                 trainer.train(fusion_type, Fusion, i, max_score)
                 
                 score, sens, prec, f1 = trainer.getResults('avg')
-                              
+                
                 # Record the results
                 Acc.append(score) 
                 Sens.append(sens)   
                 Prec.append(prec)
                 F1.append(f1)
-                    
+                        
                 mul_acc, mul_sens, mul_spec, mul_auc = trainer.getResults('mul')
                 #OneVsAll
                 Mul_acc.append(mul_acc)
@@ -120,8 +121,12 @@ def main():
             AUC_means, AUC_stds = np.mean(Mul_auc, 0), np.std(Mul_auc, 0)
             f.write('\nAUC: %.4f+-%.4f\t'%(AUC_means[0], AUC_stds[0]))
             f.write('%.4f+-%.4f\t'%(AUC_means[1], AUC_stds[1]))
-            f.write('%.4f+-%.4f\t'%(AUC_means[2], AUC_stds[2]))
+            # f.write('%.4f+-%.4f\t'%(AUC_means[2], AUC_stds[2]))
             f.close()
+            
+            plot_avg_roc('experiments/img/all/'+save_tag, 2, 3, 'Class0')
+            plot_avg_roc('experiments/img/all/'+save_tag, 6, 7, 'Class1')
+            plot_avg_roc('experiments/img/all/'+save_tag, 10, 11, 'Class2')
 
 if __name__ == '__main__':
     main()

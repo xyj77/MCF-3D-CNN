@@ -1,13 +1,15 @@
 # Temporal-spatial Feature Learning of DCE-MR Images via 3DCNN
-Keras code for paper: [Temporal-spatial Feature Learning of Dynamic Contrast Enhanced-MR Images via 3D Convolutional Neural Networks]
+Keras code for paper: 
+
+Temporal-spatial Feature Learning of Dynamic Contrast Enhanced-MR Images via 3D Convolutional Neural Networks
 
 ## Requirements
 
 Python 2.7
 
-TensorFlow
+TensorFlow >= 1.4.0
 
-Keras
+Keras >= 2.0.0
 
 ## To run the demo project:
 1. Start the training using:
@@ -36,6 +38,13 @@ Data belongs to Beijing Friendship Hospital.
 <div align="center">
 
 <img align="center" width="600" src="https://github.com/xyj77/MCF-3D-CNN/raw/master/figures/TTD.png">
+
+</div>
+
+## MCF-3DCNN architecture
+<div align="center">
+
+<img align="left" width="400" src="https://github.com/xyj77/MCF-3D-CNN/raw/master/figures/3DCNN.png"><img align="center" width="400" src="https://github.com/xyj77/MCF-3D-CNN/raw/master/figures/MCF-3DCNN.png">
 
 </div>
 

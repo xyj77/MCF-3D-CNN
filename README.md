@@ -26,7 +26,7 @@ tensorboard --logdir=experiments/Year-Month-Day/Ex-name/logs
 ```
 
 ## Data
-Data belongs to Beijing Friendship Hospital.
+The proprietary of the data belongs to Beijing Friendship Hospital.
 
 <div align="center">
 

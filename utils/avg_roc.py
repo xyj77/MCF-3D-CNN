@@ -37,6 +37,7 @@ def plot_avg_roc(path, f_row, t_row, tag = ''):
         aucs.append(roc_auc)
         # plt.plot(fpr, tpr, lw=1, alpha=0.3,
                  # label='ROC fold %d (AUC = %0.2f)' % (i, roc_auc))
+        plt.plot(fpr, tpr, lw=1, alpha=0.3)
 
     plt.plot([0, 1], [0, 1], linestyle='--', lw=1, color='r',
              label='Luck', alpha=.6)
@@ -64,4 +65,9 @@ def plot_avg_roc(path, f_row, t_row, tag = ''):
     plt.savefig(path[:16]+tag + '_avg_roc.png')
     plt.close('all') # 关闭图 
     print 'Avg ROC curve for %s saved at %s !'%(tag, path[:16])
-    
+
+if __name__ == '__main__':
+    save_tag = 'concat_012'
+    plot_avg_roc('../experiments/img/all/'+save_tag, 2, 3, 'Class0')
+    plot_avg_roc('../experiments/img/all/'+save_tag, 6, 7, 'Class1')
+    plot_avg_roc('../experiments/img/all/'+save_tag, 10, 11, 'Class2')    

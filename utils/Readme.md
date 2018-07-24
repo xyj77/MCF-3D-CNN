@@ -8,3 +8,8 @@ python conv_kernel_visualization.py
 ```shell
 python conv_featuremaps_visualization.py
 ```
+    
+* 绘制平均ROC曲线    
+```shell
+python avg_roc.py  
+```

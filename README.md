@@ -1,7 +1,8 @@
 # Temporal-spatial Feature Learning of DCE-MR Images via 3DCNN
-Keras code for paper: 
+Code for paper: 
 
-Temporal-spatial Feature Learning of Dynamic Contrast Enhanced-MR Images via 3D Convolutional Neural Networks
+[Temporal-spatial Feature Learning of Dynamic Contrast Enhanced-MR Images via 3D Convolutional Neural Networks](https://link.springer.com/chapter/10.1007/978-981-13-1702-6_38)
+
 
 ## Requirements
 
@@ -70,3 +71,14 @@ The proprietary of the data belongs to Beijing Friendship Hospital.
 ## Reference
 
 [Keras-Project-Template](https://github.com/Ahmkel/Keras-Project-Template)
+
+## Citation
+If you use this code for your research, please cite our papers.    
+```
+@inproceedings{IGTA 2018,    
+    title={Temporal-Spatial Feature Learning of Dynamic Contrast Enhanced-MR Images via 3D Convolutional Neural Networks},    
+    author={Jia X., Xiao Y., Yang D., Yang Z., Wang X., Liu Y},    
+    booktitle={Image and Graphics Technologies and Applications. IGTA 2018. Communications in Computer and Information Science},    
+    year={2018}    
+}
+```

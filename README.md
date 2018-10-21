@@ -10,7 +10,7 @@ Python 2.7
 
 TensorFlow >= 1.4.0
 
-Keras >= 2.0.0
+Keras == 2.0.0
 
 ## To run the demo project:
 1. Start the training using:

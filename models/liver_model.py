@@ -2,8 +2,8 @@
 from base.base_model import BaseModel
 import sys
 
-from keras.models import Sequential
-from keras.layers import Conv2D, MaxPooling2D, Flatten, Merge
+from keras.models import Model
+from keras.layers import Conv2D, MaxPooling2D, Flatten, Concatenate, Input
 from keras.layers.convolutional import Convolution3D, MaxPooling3D
 from keras.layers.core import Dense, Dropout, Activation, Flatten
 from keras.optimizers import SGD, Adam
@@ -22,20 +22,21 @@ class LiverModel(BaseModel):
 
     def build_fusion_model(self, fusion_type, Fusion):
         model_list = []
+        input_list = []
         for modual in Fusion:
             if len(modual) == 1: 
                 input_shape = (32, 32, 1)
-                single_model = self.cnn_2D(input_shape, modual) 
+                signle_input,single_model = self.cnn_2D(input_shape, modual) 
             else:
                 input_shape = (32, 32, 5, 1)
-                single_model = self.cnn_3D(input_shape, modual) 
+                signle_input,single_model = self.cnn_3D(input_shape, modual) 
                   
             model_list.append(single_model)
-        
+            input_list.append(signle_input)
         # 融合模型
-        model = self.nn_fusion(model_list, self.config.classes, fusion_type)
+        model = self.nn_fusion(input_list,model_list, self.config.classes, fusion_type)
         # 统计参数
-        model.summary()
+        # model.summary()
         plot_model(model,to_file='experiments/img/' + str(Fusion) + fusion_type + r'_model.png',show_shapes=True)
         print '    Saving model  Architecture'
         
@@ -48,16 +49,16 @@ class LiverModel(BaseModel):
     def build_3dcnn_model(self, fusion_type, Fusion):
         if len(Fusion[0]) == 1: 
             input_shape = (32, 32, len(Fusion))
-            model = self.cnn_2D(input_shape) 
+            model_in,model = self.cnn_2D(input_shape) 
         else:
             input_shape = (32, 32, 5, len(Fusion))
-            model = self.cnn_3D(input_shape) 
-        model.add(Dropout(0.5))
-        model.add(Dense(32, activation='relu', name = 'fc2'))
-        model.add(Dense(self.config.classes, activation='softmax', name = 'fc3')) 
-        
+            model_in,model = self.cnn_3D(input_shape) 
+        model = Dropout(0.5)(model)
+        model = Dense(32, activation='relu', name = 'fc2')(model)
+        model = Dense(self.config.classes, activation='softmax', name = 'fc3')(model) 
+        model = Model(input=model_in,output=model)
         # 统计参数
-        model.summary()
+        # model.summary()
         plot_model(model,to_file='experiments/img/' + str(Fusion) + fusion_type + r'_model.png',show_shapes=True)
         print '    Saving model  Architecture'
         
@@ -69,69 +70,69 @@ class LiverModel(BaseModel):
         
     def cnn_2D(self, input_shape, modual=''):
         #建立Sequential模型    
-        model = Sequential() 
-        model.add(Conv2D(
+        model_in = Input(input_shape) 
+        model = Conv2D(
                 filters = 6,
                 kernel_size = (3, 3),
                 input_shape = input_shape,
                 activation='relu',
                 kernel_initializer='he_normal',
                 name = modual+'conv1'
-            ))# now 30x30x6
-        model.add(MaxPooling2D(pool_size=(2,2)))# now 15x15x6
-        model.add(Conv2D(
+            )(model_in)# now 30x30x6
+        model = MaxPooling2D(pool_size=(2,2))(model)# now 15x15x6
+        model = Conv2D(
                 filters = 8,
                 kernel_size = (4, 4),
                 activation='relu',
                 kernel_initializer='he_normal',
                 name = modual+'conv2'
-            ))# now 12x12x8
-        model.add(MaxPooling2D(pool_size=(2,2)))# now 6x6x8
-        model.add(Flatten())
-        model.add(Dropout(0.5))
-        model.add(Dense(100, activation='relu', name = modual+'fc1'))
+            )(model)# now 12x12x8
+        model = MaxPooling2D(pool_size=(2,2))(model)# now 6x6x8
+        model = Flatten()(model)
+        model = Dropout(0.5)(model)
+        model_out = Dense(100, activation='relu', name = modual+'fc1')(model)
       
-        return model
+        return model_in,model_out
 
     def cnn_3D(self, input_shape, modual=''):
-        #建立Sequential模型    
-        model = Sequential() 
-        model.add(Convolution3D(
+        #建立Sequential模型
+        model_in = Input(input_shape)    
+        model = Convolution3D(
                 filters = 6,
                 kernel_size = (3, 3, 3),
                 input_shape = input_shape,
                 activation='relu',
                 kernel_initializer='he_normal',
                 name = modual+'conv1'
-            ))# now 30x30x3x6
-        model.add(MaxPooling3D(pool_size=(2,2,1)))# now 15x15x3x6
-        model.add(Convolution3D(
+            )(model_in)# now 30x30x3x6
+        model = MaxPooling3D(pool_size=(2,2,1))(model)# now 15x15x3x6
+        model = Convolution3D(
                 filters = 8,
                 kernel_size = (4, 4, 3),
                 activation='relu',
                 kernel_initializer='he_normal',
                 name = modual+'conv2'
-            ))# now 12x12x1x8
-        model.add(MaxPooling3D(pool_size=(2,2,1)))# now 6x6x1x8
-        model.add(Flatten())
-        model.add(Dropout(0.5))
-        model.add(Dense(100, activation='relu', name = modual+'fc1'))
+            )(model)# now 12x12x1x8
+        model = MaxPooling3D(pool_size=(2,2,1))(model)# now 6x6x1x8
+        model = Flatten()(model)
+        model = Dropout(0.5)(model)
+        model_out = Dense(100, activation='relu', name = modual+'fc1')(model)
       
-        return model    
+        return model_in, model_out    
 
-    def nn_fusion(self, model_list, classes, fusion_type):
-        model = Sequential()
-        model.add(Merge(model_list, mode=fusion_type))
-        model.add(Dropout(0.5))
-        
+    def nn_fusion(self, input_list, model_list, classes, fusion_type):
+        merged_model = Concatenate(axis=-1)(model_list)
+        model = Dropout(0.5)(merged_model)
+       
         if fusion_type in ['ave', 'sum', 'mul', 'dot', 'cos']:
-            model.add(Dense(32,activation='relu'))
+            model = Dense(32,activation='relu')(model)
         else:
-            model.add(Dense(128,activation='relu'))
-            model.add(Dropout(0.5))
-            model.add(Dense(32,activation='relu'))
-        model.add(Dense(classes, activation='softmax'))        
-        return model
+            model = Dense(128,activation='relu')(model)
+            model = Dropout(0.5)(model)
+            model = Dense(32,activation='relu')(model)
+	    model = Dense(classes, activation='softmax')(model)   
+	    model_out = Model(input=input_list,output=model)     
+        return model_out
     
     # 定义损失函数        
     def mycrossentropy(self, y_true, y_pred):

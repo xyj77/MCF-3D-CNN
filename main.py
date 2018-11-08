@@ -97,7 +97,7 @@ def main():
             fp.write(save_tag + '\nAvg @ Acc:%.4f+-%.4f Sens:%.4f+-%.4f Prec:%.4f+-%.4f F1:%.4f+-%.4f\n'\
                         %(np.mean(Acc), np.std(Acc), np.mean(Sens), np.std(Sens),
                         np.mean(Prec), np.std(Prec), np.mean(F1), np.std(F1)))
-            print max_score, max_sens, max_prec, max_f1
+            print(max_score, max_sens, max_prec, max_f1)
             fp.write('Best@No%d  Acc:%.4f Sens:%.4f Prec:%.4f F1:%.4f\n\n'%(No, max_score, max_sens, max_prec, max_f1))                                             
             fp.close()
                 

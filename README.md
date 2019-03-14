@@ -39,14 +39,14 @@ The proprietary of the data belongs to Beijing Friendship Hospital.
 ## Tensor-based data representation
 <div align="center">
 
-<img align="center" width="500" src="https://github.com/xyj77/MCF-3D-CNN/raw/master/figures/TTD.png"><img align="center" width="500" src="https://github.com/xyj77/MCF-3D-CNN/raw/master/figures/TTD1.jpg">
+<img align="center" width="400" src="https://github.com/xyj77/MCF-3D-CNN/raw/master/figures/TTD.png"><img align="center" width="400" src="https://github.com/xyj77/MCF-3D-CNN/raw/master/figures/TTD1.jpg">
 
 </div>
 
 ## MCF-3DCNN architecture
 <div align="center">
 
-<img align="left" width="500" src="https://github.com/xyj77/MCF-3D-CNN/raw/master/figures/3DCNN.png"><img align="center" width="500" src="https://github.com/xyj77/MCF-3D-CNN/raw/master/figures/MCF-3DCNN.png">
+<img align="left" width="400" src="https://github.com/xyj77/MCF-3D-CNN/raw/master/figures/3DCNN.png"><img align="center" width="400" src="https://github.com/xyj77/MCF-3D-CNN/raw/master/figures/MCF-3DCNN.png">
 
 </div>
 
@@ -76,7 +76,6 @@ A multi-classification problem is transformed into multiple binary classificatio
 
 The average area under the ROC curve for 3DCNN for discriminating poorly, moderately and well differentiated HCCs.    
 
-   
 <img align="center" width="600" src="https://github.com/xyj77/MCF-3D-CNN/raw/master/figures/oneVsAllROC.jpg">
 
 

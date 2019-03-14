@@ -16,11 +16,17 @@ S = [ # 融合方案
 
 ]
 
+P = [ #特征拼接方案
+    # 'add',
+    'concat'
+]
+
 # 10次实验统计平均值
 Acc = []
 Sens = []
 Prec = []
 F1 = [] 
+TestTime = []
         
 #OneVsAll 多分类对于每类而言
 Mul_acc = []
@@ -45,7 +51,7 @@ def main():
     create_dirs([config.tensorboard_log_dir, config.checkpoint_dir, 'experiments', 'experiments/img',\
                  'experiments/img/all', 'experiments/models'])
     
-    for fusion_type in ['concat']:
+    for fusion_type in P:
         for Fusion in S:
             No = -1
             max_score = 0
@@ -76,6 +82,7 @@ def main():
                 Sens.append(sens)   
                 Prec.append(prec)
                 F1.append(f1)
+                TestTime.append(trainer.testTime)
                         
                 mul_acc, mul_sens, mul_spec, mul_auc = trainer.getResults('mul')
                 #OneVsAll
@@ -91,13 +98,15 @@ def main():
                     max_sens = sens
                     max_prec = prec
                     max_f1 = f1
-                
+            print(max_score, max_sens, max_prec, max_f1) 
+            print('Test time:' + TestTime)
+            
             # Save Overall
             fp = open('experiments/results.txt', 'ab+')
             fp.write(save_tag + '\nAvg @ Acc:%.4f+-%.4f Sens:%.4f+-%.4f Prec:%.4f+-%.4f F1:%.4f+-%.4f\n'\
                         %(np.mean(Acc), np.std(Acc), np.mean(Sens), np.std(Sens),
                         np.mean(Prec), np.std(Prec), np.mean(F1), np.std(F1)))
-            print(max_score, max_sens, max_prec, max_f1)
+            fp.write('Test time: %.4f +- %.4f\n'%(np.mean(TestTime), np.std(TestTime)))
             fp.write('Best@No%d  Acc:%.4f Sens:%.4f Prec:%.4f F1:%.4f\n\n'%(No, max_score, max_sens, max_prec, max_f1))                                             
             fp.close()
                 
@@ -121,12 +130,14 @@ def main():
             AUC_means, AUC_stds = np.mean(Mul_auc, 0), np.std(Mul_auc, 0)
             f.write('\nAUC: %.4f+-%.4f\t'%(AUC_means[0], AUC_stds[0]))
             f.write('%.4f+-%.4f\t'%(AUC_means[1], AUC_stds[1]))
-            # f.write('%.4f+-%.4f\t'%(AUC_means[2], AUC_stds[2]))
+            f.write('%.4f+-%.4f\t'%(AUC_means[2], AUC_stds[2]))
             f.close()
             
+            # 绘制平均ROC曲线
             plot_avg_roc('experiments/img/all/'+save_tag, 2, 3, 'Class0')
             plot_avg_roc('experiments/img/all/'+save_tag, 6, 7, 'Class1')
             plot_avg_roc('experiments/img/all/'+save_tag, 10, 11, 'Class2')
+
 
 if __name__ == '__main__':
     main()

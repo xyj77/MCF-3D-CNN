@@ -36,9 +36,10 @@ class LiverModel(BaseModel):
         # 融合模型
         model = self.nn_fusion(input_list,model_list, self.config.classes, fusion_type)
         # 统计参数
-        # model.summary()
+        model.summary()
         plot_model(model,to_file='experiments/img/' + str(Fusion) + fusion_type + r'_model.png',show_shapes=True)
-        print '    Saving model  Architecture'
+        print('    Saving model  Architecture')
+        # raw_input()
         
         adam = Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-8)
         # model.compile(optimizer=adam, loss=self.mycrossentropy, metrics=['accuracy']) #有改善，但不稳定
@@ -60,7 +61,7 @@ class LiverModel(BaseModel):
         # 统计参数
         # model.summary()
         plot_model(model,to_file='experiments/img/' + str(Fusion) + fusion_type + r'_model.png',show_shapes=True)
-        print '    Saving model  Architecture'
+        print('    Saving model  Architecture')
         
         adam = Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-8)
         # model.compile(optimizer=adam, loss=self.mycrossentropy, metrics=['accuracy']) #有改善，但不稳定
@@ -92,7 +93,7 @@ class LiverModel(BaseModel):
         model = Dropout(0.5)(model)
         model_out = Dense(100, activation='relu', name = modual+'fc1')(model)
       
-        return model_in,model_out
+        return model_in, model_out
 
     def cnn_3D(self, input_shape, modual=''):
         #建立Sequential模型

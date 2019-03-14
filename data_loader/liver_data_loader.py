@@ -114,7 +114,7 @@ class LiverDataLoader(BaseDataLoader):
             with tf.Session() as sess:
                 X_train, X_test = X_train.eval(), X_test.eval()    
             
-            print X_train.shape, trainLabels.shape
+            print(X_train.shape, trainLabels.shape)
             # raw_input()     
             return X_train, trainLabels, X_test, testLabels
   
@@ -144,7 +144,7 @@ class LiverDataLoader(BaseDataLoader):
         fp.close()
         train_labels = np_utils.to_categorical(train_labels, max_l+1)
         train_data = np.asarray(train_data, dtype="float32")
-        print '    Train: ', train_data.shape   
+        print('    Train: ', train_data.shape)   
 
         test_data = []  
         test_labels = []  
@@ -165,7 +165,7 @@ class LiverDataLoader(BaseDataLoader):
         fp.close()
         test_labels = np_utils.to_categorical(test_labels, max_l+1)
         test_data = np.asarray(test_data, dtype="float32")
-        print '    Test: ', test_data.shape
+        print('    Test: ', test_data.shape)
         
         (X_train, y_train), (X_test, y_test) = (train_data, train_labels), (test_data, test_labels) 
         return (X_train, y_train), (X_test, y_test)

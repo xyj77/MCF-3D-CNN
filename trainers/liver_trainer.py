@@ -27,6 +27,8 @@ class LiverModelTrainer(BaseTrain):
         self.val_acc = []
         self.init_callbacks()
         
+        self.testTime = 0 #记录测试时间
+        
         self.trainOver = False
     
     def getResults(self, tag):
@@ -80,8 +82,13 @@ class LiverModelTrainer(BaseTrain):
                             shuffle=True, callbacks= self.callbacks)
         #评估模型
         score = model.evaluate(Test_list, testLabels, batch_size=1)
-        print '*'*20 + str(score)
+        print('*'*20 + str(score))
+        
+        start_time = time.time()
         pred_test = model.predict(Test_list)
+        stop_time = time.time()   
+        self.testTime = stop_time - start_time
+
         sens, prec, f1, _ = cnf_roc(testLabels, pred_test, self.config.classes, 0)
         print sens, prec, f1 
         
@@ -98,7 +105,7 @@ class LiverModelTrainer(BaseTrain):
             open('experiments/models/' + save_tag + '_architecture.json','w').write(json_string)  
             model.save_weights('experiments/models/' + save_tag + '_weights.h5')
             #保存训练曲线和ROC曲线
-            train_curve(result, self.config.data_path, 1, save_tag)
+            train_curve(result, save_tag)
             cnf_roc(testLabels, pred_test, self.config.classes, 1, save_tag=save_tag)
         
         # 保存每次的roc和cnf  
@@ -107,7 +114,7 @@ class LiverModelTrainer(BaseTrain):
         #计算每个类别单独的敏感度特异度以及oneVsAll AUC
         one_Vs_all_acc, one_Vs_all_sens, one_Vs_all_spec, one_Vs_all_auc \
                     = oneVsAll(testLabels, pred_test, self.config.classes, save_tag+'_'+str(i))
-        print one_Vs_all_acc, one_Vs_all_sens, one_Vs_all_spec, one_Vs_all_auc 
+        print(one_Vs_all_acc, one_Vs_all_sens, one_Vs_all_spec, one_Vs_all_auc) 
 
         #OneVsAll
         self.Mul_acc = one_Vs_all_acc
@@ -119,7 +126,6 @@ class LiverModelTrainer(BaseTrain):
         
         #训练结束
         self.trainOver = True
-        
         
         # self.loss.extend(result.history['loss'])
         # self.acc.extend(result.history['acc'])

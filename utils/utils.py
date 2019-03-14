@@ -36,7 +36,7 @@ def get_args():
     args = argparser.parse_args()
     return args
 
-def train_curve(h, dataset, isSample, save_tag):
+def train_curve(h, save_tag):
     acc, loss, val_acc, val_loss = h.history['acc'], h.history['loss'], h.history['val_acc'], h.history['val_loss']
     epoch = len(acc)
     
@@ -56,18 +56,7 @@ def train_curve(h, dataset, isSample, save_tag):
     plt.grid(True)
     plt.savefig('experiments/img/'+ save_tag + '_acc.png')
     # plt.show()
-    plt.close('all') # 关闭图
-    
-    # python2可以用file替代open
-    # save_file = dataset + '.txt'
-    # f = open(save_file,'ab')
-    # f.write('sample:'+str(isSample)+'\n')
-    # f.write('acc:'+str(acc)+'\n')
-    # f.write('val_acc:'+str(val_acc)+'\n')
-    
-    # f.write('loss:'+str(loss)+'\n')
-    # f.write('val_loss:'+str(val_loss)+'\n\n')
-    # f.close()    
+    plt.close('all') # 关闭图   
 
 def plot_confusion_matrix(cm, classes,
                           save_tag = '',
@@ -297,8 +286,7 @@ def oneVsAll(y_true, y_pred, classes, save_tag = ''):
         f.write('    Spec:' + str(spec) + '\n')
         f.write('    AUC:' + str(_auc) + '\n')
         f.close()
-        return acc, sens, spec, _auc
-        
+        return acc, sens, spec, _auc      
         
 import time
 # 计时装饰器

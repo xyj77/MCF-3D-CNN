@@ -78,6 +78,7 @@ The average area under the ROC curve for 3DCNN for discriminating poorly, modera
 
 <img align="center" width="600" src="https://github.com/xyj77/MCF-3D-CNN/raw/master/figures/oneVsAllROC.jpg">
 
+</div>
 
 ## Reference
 

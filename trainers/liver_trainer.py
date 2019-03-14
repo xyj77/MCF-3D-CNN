@@ -84,9 +84,9 @@ class LiverModelTrainer(BaseTrain):
         score = model.evaluate(Test_list, testLabels, batch_size=1)
         print('*'*20 + str(score))
         
-        start_time = time.time()
+        start_time = time.clock()
         pred_test = model.predict(Test_list)
-        stop_time = time.time()   
+        stop_time = time.clock()   
         self.testTime = stop_time - start_time
 
         sens, prec, f1, _ = cnf_roc(testLabels, pred_test, self.config.classes, 0)

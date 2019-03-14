@@ -99,7 +99,7 @@ def main():
                     max_prec = prec
                     max_f1 = f1
             print(max_score, max_sens, max_prec, max_f1) 
-            print('Test time:' + TestTime)
+            print('Test time:' + str(TestTime))
             
             # Save Overall
             fp = open('experiments/results.txt', 'ab+')

@@ -3,6 +3,8 @@ Code for paper:
 
 [Temporal-spatial Feature Learning of Dynamic Contrast Enhanced-MR Images via 3D Convolutional Neural Networks](https://link.springer.com/chapter/10.1007/978-981-13-1702-6_38)
 
+[Noninvasive Evaluation of the Pathologic Grade of Hepatocellular Carcinoma Using MCF-3DCNN: A Pilot Study](https://doi.org/10.1155/2019/9783106)
+
 
 ## Requirements
 
@@ -28,7 +30,7 @@ tensorboard --logdir=experiments/Year-Month-Day/Ex-name/logs
 ```
 
 ## Data
-The proprietary of the data belongs to Beijing Friendship Hospital.
+The proprietary of the data belongs to Beijing Friendship Hospital. You can get access to anonymous data [here](https://doi.org/10.1155/2019/9783106).
 
 <div align="center">
 
@@ -85,7 +87,7 @@ The average area under the ROC curve for 3DCNN for discriminating poorly, modera
 [Keras-Project-Template](https://github.com/Ahmkel/Keras-Project-Template)
 
 ## Citation
-If you use this code for your research, please cite our papers.    
+If you use this code or data for your research, please cite our papers.    
 ```
 @inproceedings{IGTA 2018,    
     title={Temporal-Spatial Feature Learning of Dynamic Contrast Enhanced-MR Images via 3D Convolutional Neural Networks},    
@@ -93,4 +95,8 @@ If you use this code for your research, please cite our papers.
     booktitle={Image and Graphics Technologies and Applications. IGTA 2018. Communications in Computer and Information Science},    
     year={2018}    
 }
+```
+
+```
+Da-wei Yang, Xi-bin Jia, Yu-jie Xiao, Xiao-pei Wang, Zhen-chang Wang, and Zheng-han Yang, “Noninvasive Evaluation of the Pathologic Grade of Hepatocellular Carcinoma Using MCF-3DCNN: A Pilot Study,” BioMed Research International, vol. 2019, Article ID 9783106, 12 pages, 2019. https://doi.org/10.1155/2019/9783106.
 ```

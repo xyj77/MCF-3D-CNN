@@ -15,7 +15,7 @@ TensorFlow == 1.4.0
 Keras == 2.2.4    
 For keras2.0.0 compatibility checkout tag keras2.0.0
 
-## To run the demo project:
+## Run:
 1. Start the training using:
 ```shell
 python main.py -c configs/fusion_config.json  # MCF-3D-CNN
